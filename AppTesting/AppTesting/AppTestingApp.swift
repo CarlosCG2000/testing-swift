@@ -10,10 +10,13 @@ import SwiftData
 
 @main
 struct AppTestingApp: App {
+    
     var sharedModelContainer: ModelContainer = {
+        
         let schema = Schema([
             Item.self,
         ])
+        
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
@@ -22,7 +25,7 @@ struct AppTestingApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -45,3 +45,11 @@ Se pueden ejecutar test tanto en remoto (por ejemplo en github) como en local.
 Existe la figura de `QA` en las empresas: se asegura que la app cumple con la suficiente calidad para poder lanzar una nueva versión al App Store.
 
 ## 3. Creamos `App de Notas` en `SwiftUI`
+Creamos un proyecto con `SwiftData` por defecto.
+El proyecto inicialmente en el punto de entrada `ContentView` crea un código con un `listado de items` donde se puede `añadir y borrar elementos` y esto se `almacena` de forma persistente en el dispositivo en `SwiftData` (aunque esta por defecto puesto el `almacenamiento en memoria` y no en el `dispositivo`).
+
+Creamos el `Modelo`: carpeta `Modelo` con archivo `Nota` que contiene `la estructura de una nota`
+Creamos el `View Model`: 
+
+MIN 14:28
+
