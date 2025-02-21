@@ -48,8 +48,21 @@ Existe la figura de `QA` en las empresas: se asegura que la app cumple con la su
 Creamos un proyecto con `SwiftData` por defecto.
 El proyecto inicialmente en el punto de entrada `ContentView` crea un código con un `listado de items` donde se puede `añadir y borrar elementos` y esto se `almacena` de forma persistente en el dispositivo en `SwiftData` (aunque esta por defecto puesto el `almacenamiento en memoria` y no en el `dispositivo`).
 
-Creamos el `Modelo`: carpeta `Modelo` con archivo `Nota` que contiene `la estructura de una nota`
-Creamos el `View Model`: 
+Creamos la carpeta `Modelo` con archivo `Nota` que contiene `la estructura de una nota`
+Creamos el archivo `View Model` donde se encuentra un array de notas y las funciones de añadir, modificar o borrar notas en dicho array.
+Creamos la carpeta `Vista` con los archivos `NuevaNotaView` y `ModificarEliminarNotaView` con formularios para editar, eliminar o crear una nueva nota
+Modificamos el `ContentView` para poder visualizar las notas y navegar a los otros archivos de las vistas.
 
-MIN 14:28
+De momento la aplicación funciona `sin persistencia` de datos sin usar `SwiftData`. El proyecto sirve para visualizar notas y poder crearlas, modificarlas y borrarlas, cuando reinicies el dispositivo se borrará todo.
 
+## 4. Test `UNITARIOS` (`Unit Tests`)
+
+Vamos a crear nuestro Target de Testing: `File --> New --> Target --> Filtro poner 'test' --> Unit Testing Bundle --> Testing System: 'XCTest' (tambien esta 'Swift Testing' que es la forma moderna)`
+
+#### ¿DIFERENCIA DENTRO DE LOS `Unit Tests` ENTRE TEST `XCTest` y `Swift Testing`?
+
+El `target` de `test` va separado al `target` de `producción` que es el que se va a subir a la `Apple Store` por ello están separada nunca se empaquetan juntos.
+
+`Command + R` se ejecutan el testing.
+
+MIN 58:00

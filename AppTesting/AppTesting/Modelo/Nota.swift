@@ -18,7 +18,7 @@ struct Nota: Identifiable, Hashable {
         return text ?? ""
     }
     
-    init(id: UUID = UUID(), title: String, text: String, creationDate: Date) {
+    init(id: UUID = UUID(), title: String, text: String?, creationDate: Date) {
         self.id = id
         self.title = title
         self.text = text
