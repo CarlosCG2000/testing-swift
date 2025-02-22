@@ -66,6 +66,7 @@ El `target` de `test` va separado al `target` de `producción` que es el que se 
 `Command + R` se ejecutan el testing.
 `Command + S` se ejecutan el guardar.
 `Command + U` se ejecutan el testing del fichero.
+`⇧ + ⌘ + K (Shift + Command + K)`: limpiar proyecto y test.
 
 Ojo si una `función test` no contiene la palabra inicialmente `test` no se va a salir el cuadrado para la ejecución ya que Xcode no lo detecta como un test.
 
@@ -75,6 +76,7 @@ La filosofia de `las operaciones de test` es seguir un `patrón` (que no es obli
 2. `When` or Act: donde ocurre `la acción`
 3. `Then` or Asset: `calcula el resultado` o cambio de la accion o evento.
 
++ Añadimos mas `ficheros de test`:
 Ahora `pulsamos a nuestro fichero test` (explicado como lo hemos creado anteriormente):
 `Command + N --> Filtro poner 'test' --> XCTest Case Class --> Nombre 'ViewModelTest' y Subclass of: 'XCTestCase' --> Seleccionar Target (antiguo creado de test)`
 
@@ -134,15 +136,32 @@ En Swift, existen dos principales frameworks para realizar `unit tests`:
 🚀 *En el futuro, Swift Testing podría reemplazar a XCTest, pero por ahora XCTest sigue siendo el más utilizado en el ecosistema Apple.*
 
 ## 5. Test `INTEGRACIÓN` (`Integration Tests`)
-Test de integracion con SwiftData para persistir nuestras notas y vamos a crear en ella casos de uso.
+[IMAG 1]
+
+Fijandonos en la imagen de la piramide ya hemos visto los `Unit Tests` testeando el Modelo y el View Model (con sus funciones). Estos se enfocaban en pequeñas partes del codigo com funciones y métodos que son faciles y rapidas de ejecutar. Esos son `la mayoria de test` de nuestra aplicación y deberian de ser de es tipo `Unit Tests`. Son la base de la piramide.
+
+La segunda capa son los `Test de integración`, esta capa s eenfoca en diferentes partes de la aplicación que trabajan juntas, estos test son más lentos. Aun asi deberian de ser bastate frecuentes, están en medio de la piramide lo que indican que deberia de haber menos `Test de integración` que `Test Unitarios`.
+
+[IMAG 2]
+
+## 5.1. Añadimos en `App de Notas` persistencia con `SwiftData`
+Vamos a mejorar la aplicación que teniamos con SwiftData para persistir nuestras notas y vamos a crear en ella casos de uso. Asi si se cierra la aplicación  y la volvemos abrir siguen estnado las notas.
+
+[IMAG 3]
+
+Vamos a crear nuevas capas para Swift Data con esta estructura: `DataBase --> Usecase --> ViewModel --> View`
+Vamos a extraer toda la lógica del `View Model` en el fichero `UseCase` con 4 casos de uso `obtener, crear, actualizar, eliminar` las notas y de esta manera desacoplamos la lógica del `View Model` y conformamos unos de los `principios SOLID` el de responsabilidad única.
+
+* Vamos a testear con `test de integración` desde la capa de `Base de datos` hasta la de `View Model`.
+
+1. Creamos una clase `NotaDatabase.swift` para interactuar con la `Base de datos`.
+Vamos a crear un `Singleton`, una `única instacia` que se ejecuta una única vez en nuestra aplicación.
 
 
-
-
-
-
-## MIN 1:15:10
+## MIN 1:21:20
 # ___________________________________________
 PASAR A MI APLICACIÓN LOS SIMPSON
-- LOS `TEST UNITARIOS`
+- LOS `TEST UNITARIOS` TANTO CON `XCTest` y `Swift Testing` PARA `Model` Y `View Model` DE LA SECCIÓN `Character` ✅
 ...
+
++ ¿Por qué usar Singleton para una instacia unica en nuestra aplicación para la clase que del contenedor que interactua con la Base de Datos?
