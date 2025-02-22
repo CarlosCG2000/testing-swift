@@ -11,7 +11,10 @@
 ## 2. ¿Qué son `los tests` y para que sirven?
 ### 2.1. `Beneficios` de testear el código
 ## 3. Creamos `App de Notas` en `SwiftUI`
-## ...
+## 4. Test `UNITARIOS` (`Unit Tests`)
+### 4.1. `Test Coverage`
+### 4.2. ¿`Diferencia` dentro de los `Unit Tests` entre los `XCTest` y `Swift Testing`?
+## 5. Test `INTEGRACIÓN` (`Integration Tests`)
 ## ...
 ## ...
 
@@ -80,7 +83,7 @@ Podemos crear en en ciclo de vida al ejecutarse la instancia del View Model.
 Tenemos que probar funciones con un Scope reducido, cuando más pequeño mejor el test
 Cada función de testing es independiente y por ejemplo para actualizar una nota primero hay que crearla y como cada test al ser independiente no nos sirve tenerla antes ya el testing de prueba no reconoce a los otros testing.
 
-## 4.1. `Test Coverage`
+### 4.1. `Test Coverage`
 Es un metrica que nos permite saber que porcentaje de nuestro código de producción es el que se ha ejecutado cuando ha pasado nuestros test. Nos permite saber cuanto de testeado tenemos un tipo, clase, struct...
 
 Vamos en la parte lateral donde estan los ficheros en al parte superior `pulsamos el ultimo icono como de unas notas --> pulsamos el ultimo test --> pulsamos 'Coverage'`
@@ -89,15 +92,41 @@ Hay vemos los archivos y los porcentajes que tenemos de cada archivo de test pas
 
 Hay que buscar un equilibrio entre tener un Coverage casi nulo puede ser que nuestra aplicación no sea muy segura y poco mantenible pero tener un Coverage casi del 100 puede que ni si quiera tenga sentido.
 
-## 4.2. ¿Diferencia dentro de los `Unit Tests` entre los `XCTest` y `Swift Testing`?
-...
-`RELLENAR ESTO`
+### 4.2. ¿`Diferencia` dentro de los `Unit Tests` entre los `XCTest` y `Swift Testing`?
+En Swift, existen dos principales frameworks para realizar `unit tests`:
+1. `XCTest` (el tradicional, parte de Xcode).
+2. `Swift Testing` (nuevo, introducido en Swift 5.9).
 
-PASAR A `MI APLICACIÓN LOS SIMPSON LOS TEST UNITARIOS`
-...
+1. `XCTest` (el clásico, usado en Xcode)
+🔹 Es el framework tradicional de Apple para pruebas en `Swift y Objective-C`.
+🔹 Se basa en clases y métodos con prefijos `test`.
+🔹 Utiliza `XCTestCase` como clase base para `escribir pruebas`.
+🔹 Se ejecuta dentro del `entorno de pruebas de Xcode`.
+🔹 Se usa en `@testable import` para probar módulos internos.
+🔹 Ejecutar `pruebas`:
+• Se ejecutan desde el `panel de pruebas` de Xcode.
+• Se pueden integrar en `CI/CD` con herramientas como `xcodebuild test.`
+
+2. `Swift Testing` (nuevo, más moderno)
+🔹 Introducido en `Swift 5.9`, es más moderno y expresivo.
+🔹 Usa una sintaxis más `declarativa` con `test y expect`.
+🔹 `No` necesita `XCTestCase`, usa funciones directamente.
+🔹 Se ejecuta con swift test en proyectos con `Swift Package Manager (SPM)`.
+🔹 Ejecutar `pruebas`:
+• Se ejecutan con `swift test` (útil en proyectos SPM).
+• Son más fáciles de `escribir y leer`.
+• `No dependen de Xcode`, por lo que funcionan en cualquier entorno `Swift`.
 
 ## 5. Test `INTEGRACIÓN` (`Integration Tests`)
 Test de integracion con SwiftData para persistir nuestras notas y vamos a crear en ella casos de uso.
 
 
+
+
+
+
 ## MIN 1:15:10
+# ___________________________________________
+PASAR A MI APLICACIÓN LOS SIMPSON
+- LOS `TEST UNITARIOS`
+...
