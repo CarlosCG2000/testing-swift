@@ -117,6 +117,22 @@ En Swift, existen dos principales frameworks para realizar `unit tests`:
 • Son más fáciles de `escribir y leer`.
 • `No dependen de Xcode`, por lo que funcionan en cualquier entorno `Swift`.
 
+| Característica       | `XCTest` 🏛️ (Clásico) | `Swift Testing` 🚀 (Nuevo) |
+|----------------------|----------------------|----------------------------|
+| **Sintaxis**         | Basado en clases (`XCTestCase`) | Basado en funciones (`test { }`) |
+| **Framework**        | `XCTest` (nativo de Xcode) | `Testing` (Swift 5.9+) |
+| **Ejecución**        | Xcode (`cmd + U` o `xcodebuild test`) | `swift test` (ideal para SPM) |
+| **Expresividad**     | Más verbo (`XCTAssertEqual(...)`) | Más declarativo (`expect(...) == ...`) |
+| **Uso en CI/CD**     | Compatible con Xcode | Más portable, independiente de Xcode |
+| **Compatibilidad**   | iOS, macOS, tvOS, watchOS | Solo para proyectos en Swift 5.9+ |
+
+- **¿Cuál elegir?**
+- **Si trabajas en Xcode y desarrollas para iOS/macOS:** `XCTest` (es el estándar y bien integrado).
+- **Si trabajas con Swift Package Manager o buscas tests más modernos:** `Swift Testing`.
+- **Si necesitas compatibilidad máxima:** `XCTest` sigue siendo la mejor opción.
+
+🚀 *En el futuro, Swift Testing podría reemplazar a XCTest, pero por ahora XCTest sigue siendo el más utilizado en el ecosistema Apple.*
+
 ## 5. Test `INTEGRACIÓN` (`Integration Tests`)
 Test de integracion con SwiftData para persistir nuestras notas y vamos a crear en ella casos de uso.
 
