@@ -56,13 +56,48 @@ Modificamos el `ContentView` para poder visualizar las notas y navegar a los otr
 De momento la aplicación funciona `sin persistencia` de datos sin usar `SwiftData`. El proyecto sirve para visualizar notas y poder crearlas, modificarlas y borrarlas, cuando reinicies el dispositivo se borrará todo.
 
 ## 4. Test `UNITARIOS` (`Unit Tests`)
-
 Vamos a crear nuestro Target de Testing: `File --> New --> Target --> Filtro poner 'test' --> Unit Testing Bundle --> Testing System: 'XCTest' (tambien esta 'Swift Testing' que es la forma moderna)`
-
-#### ¿DIFERENCIA DENTRO DE LOS `Unit Tests` ENTRE TEST `XCTest` y `Swift Testing`?
 
 El `target` de `test` va separado al `target` de `producción` que es el que se va a subir a la `Apple Store` por ello están separada nunca se empaquetan juntos.
 
 `Command + R` se ejecutan el testing.
+`Command + S` se ejecutan el guardar.
+`Command + U` se ejecutan el testing del fichero.
 
-MIN 58:00
+Ojo si una `función test` no contiene la palabra inicialmente `test` no se va a salir el cuadrado para la ejecución ya que Xcode no lo detecta como un test.
+
+Para acceder a los datos de nuestra aplicación al test tenemos que importar el tag de la aplicación `@testable import AppTesting`
+La filosofia de `las operaciones de test` es seguir un `patrón` (que no es obligatorio pero si recomendable) en las funciones, que se rigen por 3 fases:
+1. `Given` or Arrange: `preparamos los datos`, es el `estado inicial`
+2. `When` or Act: donde ocurre `la acción`
+3. `Then` or Asset: `calcula el resultado` o cambio de la accion o evento.
+
+Ahora `pulsamos a nuestro fichero test` (explicado como lo hemos creado anteriormente):
+`Command + N --> Filtro poner 'test' --> XCTest Case Class --> Nombre 'ViewModelTest' y Subclass of: 'XCTestCase' --> Seleccionar Target (antiguo creado de test)`
+
+Aqui es donde vamos a hacer el test a las funciones del `ViewModel` (en el anterior se las hicimos al `Modelo`).
+Podemos crear en en ciclo de vida al ejecutarse la instancia del View Model.
+Tenemos que probar funciones con un Scope reducido, cuando más pequeño mejor el test
+Cada función de testing es independiente y por ejemplo para actualizar una nota primero hay que crearla y como cada test al ser independiente no nos sirve tenerla antes ya el testing de prueba no reconoce a los otros testing.
+
+## 4.1. `Test Coverage`
+Es un metrica que nos permite saber que porcentaje de nuestro código de producción es el que se ha ejecutado cuando ha pasado nuestros test. Nos permite saber cuanto de testeado tenemos un tipo, clase, struct...
+
+Vamos en la parte lateral donde estan los ficheros en al parte superior `pulsamos el ultimo icono como de unas notas --> pulsamos el ultimo test --> pulsamos 'Coverage'`
+
+Hay vemos los archivos y los porcentajes que tenemos de cada archivo de test pasado. Si pulsamos sobre uno y vamos a su correspondiente fichero y en la parte derecha vemos cuantas veces se ha testedo (saldra con fondo verde si es 1 o más y sera en fondo rojo si es 0 veces).
+
+Hay que buscar un equilibrio entre tener un Coverage casi nulo puede ser que nuestra aplicación no sea muy segura y poco mantenible pero tener un Coverage casi del 100 puede que ni si quiera tenga sentido.
+
+## 4.2. ¿Diferencia dentro de los `Unit Tests` entre los `XCTest` y `Swift Testing`?
+...
+`RELLENAR ESTO`
+
+PASAR A `MI APLICACIÓN LOS SIMPSON LOS TEST UNITARIOS`
+...
+
+## 5. Test `INTEGRACIÓN` (`Integration Tests`)
+Test de integracion con SwiftData para persistir nuestras notas y vamos a crear en ella casos de uso.
+
+
+## MIN 1:15:10

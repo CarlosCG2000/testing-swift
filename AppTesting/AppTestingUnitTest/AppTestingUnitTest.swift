@@ -13,11 +13,11 @@ final class AppTestingUnitTest: XCTestCase {
 
     // _________________ CICLO DE VIDA DEL TEST _________________
 /**
-    override func setUpWithError() throws { // ANTES DE EJECUTARSE EL TEST
+    override func setUpWithError() throws {      // ANTES DE EJECUTARSE EL TEST
        
     }
 
-    override func tearDownWithError() throws { // DESPUÉS DE EJECUTARSE EL TEST, PARA LIMPIAR EL ESTADO
+    override func tearDownWithError() throws {       // DESPUÉS DE EJECUTARSE EL TEST, PARA LIMPIAR EL ESTADO
 
     }
  */

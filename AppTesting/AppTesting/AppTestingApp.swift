@@ -11,8 +11,6 @@ import SwiftData
 @main
 struct AppTestingApp: App {
     
-
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
