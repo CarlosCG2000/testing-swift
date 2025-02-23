@@ -40,8 +40,11 @@ struct NuevaNotaView: View {
                 
                 ToolbarItem(placement: .topBarTrailing){
                     Button("Guardar"){
-                        viewModel.addNota(titulo: titulo, text: texto)
-                        dismiss()
+                        Task {
+                            await viewModel.addNota(titulo: titulo, text: texto)
+                            dismiss()
+                        }
+                        
                     }
                 }
             }

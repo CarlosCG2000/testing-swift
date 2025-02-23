@@ -6,13 +6,15 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Nota: Identifiable, Hashable {
+@Model // Macro de SwiftData
+class Nota: Identifiable, Hashable {
     
-    let id: UUID
-    let title: String
-    let text: String?
-    let creationDate: Date
+    @Attribute(.unique) var id: UUID
+    var title: String
+    var text: String?
+    var creationDate: Date
     
     var getText: String {
         return text ?? ""

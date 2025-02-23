@@ -15,7 +15,9 @@
 ### 4.1. `Test Coverage`
 ### 4.2. ¿`Diferencia` dentro de los `Unit Tests` entre los `XCTest` y `Swift Testing`?
 ## 5. Test `INTEGRACIÓN` (`Integration Tests`)
-## ...
+### 5.1. Añadimos en `App de Notas` persistencia con `SwiftData`
+### 5.2. Pasos del `test de integración`
+## 6. `Mocks` e `inyección de dependecias` en Swift
 ## ...
 
 ## 1. Secciones (7)
@@ -144,8 +146,8 @@ La segunda capa son los `Test de integración`, esta capa s eenfoca en diferente
 
 [IMAG 2]
 
-## 5.1. Añadimos en `App de Notas` persistencia con `SwiftData`
-Vamos a mejorar la aplicación que teniamos con SwiftData para persistir nuestras notas y vamos a crear en ella casos de uso. Asi si se cierra la aplicación  y la volvemos abrir siguen estnado las notas.
+### 5.1. Añadimos en `App de Notas` persistencia con `SwiftData`
+Vamos a mejorar la aplicación que teniamos con SwiftData para persistir nuestras notas y vamos a crear en ella casos de uso. Asi si se cierra la aplicación y la volvemos abrir siguen estnado las notas.
 
 [IMAG 3]
 
@@ -154,14 +156,63 @@ Vamos a extraer toda la lógica del `View Model` en el fichero `UseCase` con 4 c
 
 * Vamos a testear con `test de integración` desde la capa de `Base de datos` hasta la de `View Model`.
 
-1. Creamos una clase `NotaDatabase.swift` para interactuar con la `Base de datos`.
+1. Creamos una clase `NotaDatabase.swift` para interactuar con la `base de datos`.
 Vamos a crear un `Singleton`, una `única instacia` que se ejecuta una única vez en nuestra aplicación.
+Creamos el `contenedor del modelo` que tenga el contexto para `base de datos en Swift Data`.
+Tambien voy a definir `los funciones con las operaciones a la base de datos` directamente en este archivo que son de crear, obtener, modificar y borrar.
+Creo un protocolo que va a conformar a la clase `NotaDatabase`. Lo hacemos para que nos `facilite la inyección de dependecias` en `los casos de uso`. Y en vez de que usen `implementaciones` usen `abstracciones` concretas.
+
+2. Editamos la `Nota.swift`.
+Importamos `SwiftData`, añadimos la macro `@Model` y cambia el tipo de `struct` por `class`.
+Hay que cambiar los atributos de tipo `let` por `var`. Y el `id` añadirle la macro `@Attribute(.unique)`.
+
+3. Creamos una carpeta `Casos de uso` con los casos de uso `CreateNoteUseCase.swift`, `FetchAllNoteUseCase.swift`
+Vamos a usar el `protocolo` del `NotaDatabase.swift` asi en vez de utilizar `implementaciones` usaremos `abstracciones` concretas.
+
+4. Editamos la `ViewModel.swift`.
+Añadimos las referencias de cada caso de uso.
+
+### 5.2. Pasos del `test de integración`
+Vamos a valdiar que cuando se cree una nota la nota de verdad persista en la BD de SwiftData y que cuando tambien llamemos al VM para obtener las notas de la BD de SwiftData, efectivamente se recuperen las notas almacenadas en la BD.
+
+Vamos a la carpeta de testing principal que ya habiamos creado y creamos un nuevo fichero:
+`Filtro por 'test' --> * Unit Test Case Class --> Nombre 'ViewModelIntegrationTests' y Subclass of: 'XCTestCase' --> Pulsado el Target de testing`
+¿No me sale que exista el `Unit Test Case Class`? Eligo `XCTest Unit Test`.
+
+Queremos hacer la comprobación de que funcionan bien como deberia del `ViewModel --> UseCases --> DataBase` y que la acción sea crear una nota en la base de datos.
+
+Podemos usar una `terminología` muy común en `testing` que es cuando se quiere testear `un componente en concreto` llamada `SUT` (System Under Test)
+Vamos a crear la configuración de nuestra base de datos cada vez que se genere un test y vamos a hacer que nuestra base de datos este en memoria, es decir no queremos persistir la información en el dispositivo.
+
+Debemos de configurar el contenedor que se debe de repetir en cada ejecución de un test. Lo hacemos al declarar nuestro Singleton de la Base de datos, elegiendo en memoria, declarando los use cases inicializamos nuestro ViewModel con los use case.
+
+Luego ya declaramos las funciones de SwiftData en el ViewModel para testearlo.
+
+Vemos que los test me funcionan pero ahora los test realizados anteriormente en otro fichero `ViewModelTest.swift` de hacer test unitarios en el View Model dan error, ya que no tiene los useCases correspondientes y hay un lio de logica, ya que tenemos funciones que se hacen en memoria y otras persistencia de disco.
+
+Los test de modificar y eliminar que aun no hemos cambiado las operaciones en el View Model los vamos a comentar.
+Los test de añadir nuesas notras que si hemos cambiando en el View Model tambien dan error ya que usamos la base de datos donde se persisten los datos en disco y por lo tanto el estado al lanzar unt est se guarda en disco y esto no es lo que queremos. Es decir queremos que nuestros test unitarios no dependan de otros componentes ya que no son su proposito. No queremos que el View Model dependa de otro componente como la Base de datos. Pero ahora mismo al inicializar nuestro View Model se esta creando una instancia con los casos de uso (ya que los tenemos en el init por defecto). Pero lo que queremos aqui es crear unos tipos nuevos engañando que simulen que hemos contactado con las capas inferiores, en este caso con la Base de datos. Y esto se hace mockeando los Use cases.
+
+[IMAG 4]
+
+Vamos a crear unos UseCases que no se conecten a la base de datos sino que simulen que hacen algo y que nos retornan un resultado que nosotros especificamos. Gracias a estos escenarios que podemos controlar podemos saber como se comporta nuestra app y prepararla. Para todo esto debemos entender los Mocks que es lo que veremos en el siguiente apartado.
+
+## 6. `Mocks` e `inyección de dependecias` en Swift
 
 
-## MIN 1:21:20
+
++ DIFERENCIA ENTRE TEST UNITARIOS E INTEGRADOS (QUE DEPENDEN DE COMPONENTES)
++ REALIZAR LA PARTE DEL VIDEO DEL TEST INTEGRADOS EN EL PROYECTO
+
+
+## MIN 1:56:05
+
 # ___________________________________________
 PASAR A MI APLICACIÓN LOS SIMPSON
 - LOS `TEST UNITARIOS` TANTO CON `XCTest` y `Swift Testing` PARA `Model` Y `View Model` DE LA SECCIÓN `Character` ✅
-...
+- LOS `TEST INTEGRADOS` CAMBIANDO EN `SwiftData` EL `CONTENEDOR` Y CREANDO `CASOS DE USOS` CONECTANDO AL `VIEW MODEL` ❌
 
-+ ¿Por qué usar Singleton para una instacia unica en nuestra aplicación para la clase que del contenedor que interactua con la Base de Datos?
++ ¿Por qué usar `Singleton para (punto 1)` una instancia unica en nuestra aplicación para la clase que del `contenedor que interactua con la Base de Datos`?
++ Crear el `contenedor separado de la App` con los métodos y un protocolo para que se lo pase a unos ficheros con los `Casos de uso` y que se llaman en el `View Model` para que los uso la `View`.
+
+
