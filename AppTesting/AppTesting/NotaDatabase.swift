@@ -18,6 +18,8 @@ enum DatabaseError: Error { // 5. Posibles errores que se delegan a traves del `
 protocol NotasDatabaseProtocol { // 7. Protocolo que conforma a la clase NotaDatabase
     func insertNota(nota:Nota) async throws
     func fetchAllNotas() async throws -> [Nota]
+    func updateNota(id: UUID, title: String, text: String) async throws
+    func removeNota(id: UUID) async throws
 }
 
 class NotaDatabase: NotasDatabaseProtocol { // Añadimos el protocolo (NotasDatabaseProtocol) para que nos facilite la inyección de dependecias.
@@ -54,7 +56,7 @@ class NotaDatabase: NotasDatabaseProtocol { // Añadimos el protocolo (NotasData
         container.mainContext.insert(nota)
         
         do {
-             try container.mainContext.save()
+            try container.mainContext.save()
         } catch {
             print("Error \(error.localizedDescription)")
             throw DatabaseError.errorInsert
@@ -75,6 +77,60 @@ class NotaDatabase: NotasDatabaseProtocol { // Añadimos el protocolo (NotasData
             throw DatabaseError.errorFetch
         }
         
+    }
+    
+    @MainActor
+    func updateNota(id: UUID, title: String, text: String) throws {
+        
+        let notePredicate = #Predicate<Nota>{
+            $0.id == id
+        }
+        
+        var fetchDescriptor = FetchDescriptor<Nota>(predicate: notePredicate)
+        
+        // fetchDescriptor.sortBy = [SortDescriptor<Nota>(\.creationDate)]
+        fetchDescriptor.fetchLimit = 1 // queremos un solo resultado
+        
+        do {
+            guard let updateNote = try container.mainContext.fetch(fetchDescriptor).first else {
+                throw DatabaseError.errorUpdate
+            }
+            
+            updateNote.title = title // actualizamos el titulo de la nota
+            updateNote.text = text // actualizamos el texto de la nota
+            
+            try container.mainContext.save()
+            
+        } catch {
+            print("Error  actualizar nota: \(error.localizedDescription)")
+            throw DatabaseError.errorUpdate
+        }
+    }
+    
+    @MainActor
+    func removeNota(id: UUID) throws {
+        
+        let notePredicate = #Predicate<Nota>{
+            $0.id == id
+        }
+        
+        var fetchDescriptor = FetchDescriptor<Nota>(predicate: notePredicate)
+        
+        fetchDescriptor.fetchLimit = 1 // queremos un solo resultado
+        
+        do {
+            guard let deleteNote = try container.mainContext.fetch(fetchDescriptor).first else {
+                throw DatabaseError.errorDelete
+            }
+            
+            container.mainContext.delete(deleteNote) // borrar la nota
+            
+            try container.mainContext.save()
+            
+        } catch {
+            print("Error al borrar nota: \(error.localizedDescription)")
+            throw DatabaseError.errorDelete
+        }
     }
     
 }

@@ -21,8 +21,14 @@ final class ViewModelIntegrationTests: XCTestCase {
         // Declaramos los use cases
         let createNoteUseCase = CreateNoteUseCase(notaDatabase: database)
         let fetchAllNoteUseCase = FetchAllNoteUseCase(notaDatabase: database)
+        let updateNoteUseCase = UpdateNoteUseCase(notaDatabase: database)
+        let deleteNoteUseCase = DeleteNoteUseCase(noteDatabase: database)
         
-        sut = ViewModel(createNoteUseCase: createNoteUseCase, fetchAllNoteUseCase: fetchAllNoteUseCase) // Inicializamos nuestro ViewModel con los use cases
+        // Inicializamos nuestro ViewModel con los use cases
+        sut = ViewModel(createNoteUseCase: createNoteUseCase,
+                        fetchAllNoteUseCase: fetchAllNoteUseCase,
+                        updateNoteUseCase: updateNoteUseCase,
+                        deleteNoteUseCase: deleteNoteUseCase)
     }
     
     override func tearDownWithError() throws { }
@@ -104,5 +110,69 @@ final class ViewModelIntegrationTests: XCTestCase {
             XCTAssertEqual(lastNote?.title, title2, "El título 2 no coincide")
             XCTAssertEqual(lastNote?.text, text2, "El texto 2 no coincide")
         }
+    }
+    
+    // 4. Actualizar una nota en la BD
+    func testUpdateNote() {
+        // Given
+        let title = "Prueba de Título"
+        let text = "Prueba de Texto"
+        
+        Task{
+            await sut.addNota(titulo: title, text:text)
+            
+            let newTitle = "Nuevo de Título"
+            let newText = "Nuevo de Texto"
+            
+            if let id = sut.notas.first?.id {
+                // When
+                await sut.updateNota(id: id, newTitulo: newTitle, newText: newText)
+                
+                // Then
+                XCTAssertEqual(sut.notas.count, 1)
+                XCTAssertEqual(sut.notas[0].title, newTitle)
+                XCTAssertEqual(sut.notas[0].text, newText)
+                
+            } else {
+                XCTFail("No se ha podido obtener el ID de la nota")
+            }
+        }
+    }
+    
+    // 5. Borrar una nota en la BD
+    func testDeleteNote() {
+        // Given
+        let title = "Prueba de Título"
+        let text = "Prueba de Texto"
+        let title2 = "Prueba de Título 2"
+        let text2 = "Prueba de Texto 2"
+        let text3 = "Prueba de Texto 3"
+        let title3 = "Prueba de Título 3"
+        
+        Task{
+            await sut.addNota(titulo: title, text: text)
+            await sut.addNota(titulo: title2, text: text2)
+            await sut.addNota(titulo: title3, text: text3)
+            
+            if let id = sut.notas.last?.id {
+                // When
+                await sut.deleteNota(id)
+                
+                // Then
+                XCTAssertEqual(sut.notas.count, 2)
+            } else {
+                XCTFail("No se ha podido obtener el ID de la nota")
+            }
+        }
+    }
+    
+    // 6. Test que lance un error
+    func testRemoveNoteInDatabaseShouldThrowsError() async {
+        
+        await sut.deleteNota(UUID())
+        
+        XCTAssertEqual(sut.notas.count, 0) // comprobamos que el número de notas es 0
+        XCTAssertNotNil(sut.databaseError) // comprobamos que el error no es nulo si no que tiene un valor de error de base de datos
+        
     }
 }

@@ -23,9 +23,12 @@ struct NuevaNotaView: View {
             Form {
                 Section {
                     TextField("Titulo", text: $titulo)
+                        .accessibilityIdentifier("create_titulo_id") // para el text UI
                     TextField("Descripción", text: $texto)
+                        .accessibilityIdentifier("create_descrip_id") // para el text UI
                 } footer: {
                     Text("* Titulo es obligatorio")
+                        .foregroundStyle(Color.red)
                 }
             }
             .navigationTitle("Nueva nota")

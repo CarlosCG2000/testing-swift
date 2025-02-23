@@ -13,12 +13,34 @@ final class ViewModelTest: XCTestCase {
     var viewModel:ViewModel!
     
     override func setUpWithError() throws {  // ANTES DE EJECUTARSE EL TEST
-        viewModel = ViewModel()
+        viewModel = ViewModel(
+            createNoteUseCase: CreateNoteUseCaseMock(),
+            fetchAllNoteUseCase: FetchAllNoteUseCaseMock(),
+            updateNoteUseCase: UpdateNoteUseCaseMock(),
+            deleteNoteUseCase: DeleteNoteUseCaseMock()
+        )
     }
 
-    override func tearDownWithError() throws { } // DESPUÉS DE EJECUTARSE EL TEST, PARA LIMPIAR EL ESTADO
+    override func tearDownWithError() throws { // DESPUÉS DE EJECUTARSE EL TEST, PARA LIMPIAR EL ESTADO
+        mockDBNotas = []
+    }
 
     // Tenemos que probar funciones con un Scope reducido, cuando más pequeño mejor el test
+    
+    func testAddtNota() async {
+        // Give
+        let title = "Prueba de Título"
+        let text = "Prueba de Texto"
+        
+        // When
+        await viewModel.addNota(titulo: title, text: text)
+        
+        // Then
+        XCTAssertEqual(viewModel.notas.count, 1)
+        
+        XCTAssertEqual(viewModel.notas[0].title, title)
+        XCTAssertEqual(viewModel.notas[0].text, text)
+    }
     
     func testAddtTwoNota() async {
         // Give
@@ -42,7 +64,7 @@ final class ViewModelTest: XCTestCase {
         XCTAssertEqual(viewModel.notas[1].text, text2)
     }
     
-    /*
+    
     func testUpdateNota() async {
         // Para actualizar una nota primero hay que crearla y como cada test es independiente, hay que crearla de nuevo
         
@@ -57,7 +79,7 @@ final class ViewModelTest: XCTestCase {
         
         // When
         if let id = viewModel.notas.first?.id {
-            viewModel.updateNota(id: id, newTitulo: newTitle, newText: newText)
+            await viewModel.updateNota(id: id, newTitulo: newTitle, newText: newText)
             
             // Then
             XCTAssertEqual(viewModel.notas.count, 1)
@@ -79,7 +101,7 @@ final class ViewModelTest: XCTestCase {
         
         if let id = viewModel.notas.first?.id {
             // When
-            viewModel.deleteNota(id)
+            await viewModel.deleteNota(id)
             
             // Then
             XCTAssertEqual(viewModel.notas.count, 0)
@@ -87,7 +109,5 @@ final class ViewModelTest: XCTestCase {
             XCTFail("No se ha podido obtener el ID de la nota")
         }
     }
-    */
-    
 
 }

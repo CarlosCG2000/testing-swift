@@ -29,7 +29,10 @@ struct ModificarEliminarNotaView: View {
             }
             
             Button(action: {
-                viewModel.deleteNota(id)
+                Task{
+                   await viewModel.deleteNota(id)
+                    dismiss()
+                }
             }, label: {
                 Text("Eliminar nota")
                     .foregroundStyle(Color.gray)
@@ -44,8 +47,10 @@ struct ModificarEliminarNotaView: View {
             
             ToolbarItem(placement: .topBarTrailing){
                 Button("Guardar"){
-                    viewModel.updateNota(id: id, newTitulo: titulo, newText: texto)
-                    dismiss()
+                    Task {
+                        await viewModel.updateNota(id: id, newTitulo: titulo, newText: texto)
+                        dismiss()
+                    }
                 }
             }
         }

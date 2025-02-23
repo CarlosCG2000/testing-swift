@@ -7,9 +7,13 @@
 
 import Foundation
 
-struct FetchAllNoteUseCase {
+protocol FetchAllNoteProtocol {
+    func fetchAll() async throws -> [Nota]
+}
+
+struct FetchAllNoteUseCase: FetchAllNoteProtocol {
     
-    var notaDatabase: NotasDatabaseProtocol
+    var notaDatabase: NotasDatabaseProtocol // Creamos una referencia a nuestra Base de datos
     
     init(notaDatabase: NotasDatabaseProtocol = NotaDatabase.shared) {
         self.notaDatabase = notaDatabase

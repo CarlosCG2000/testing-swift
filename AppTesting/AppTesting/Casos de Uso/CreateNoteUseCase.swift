@@ -7,9 +7,13 @@
 
 import Foundation
 
-struct CreateNoteUseCase {
+protocol CreateNoteProtocol {
+    func createNoteWith(title: String, text: String) async throws
+}
+
+struct CreateNoteUseCase: CreateNoteProtocol {
     
-    var notaDatabase : NotasDatabaseProtocol // 1. De forma abstracta lllamamos al protocolo 'NotasDatabaseProtocol'
+    var notaDatabase : NotasDatabaseProtocol // 1. De forma abstracta llamamos al protocolo 'NotasDatabaseProtocol' creando una referencia a nuestra BD
     
     init(notaDatabase: NotasDatabaseProtocol = NotaDatabase.shared) { // 2. Inicializamos el protocolo
         self.notaDatabase = notaDatabase
