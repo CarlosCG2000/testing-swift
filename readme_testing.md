@@ -409,6 +409,8 @@ PASAR A MI APLICACIÓN LOS SIMPSON
 - LOS `TEST UNITARIOS` TANTO CON `XCTest` y `Swift Testing` PARA `Model` Y `View Model` DE LA SECCIÓN `Character` ✅
 - LOS `TEST INTEGRADOS` CAMBIANDO EN `SwiftData` EL `CONTENEDOR` Y CREANDO `CASOS DE USOS` CONECTANDO AL `VIEW MODEL` ❌
 - ARREGLAR LOS `TEST UNITARIOS` CREANDO `MOCKS` A PARTIR DE `PROTOCOLOS` E `INYECCIÓN DE DEPENDENCIAS` ❌
+- LOS `TEST SNAPSHOT` ❌
+- LOS `TEST ENT_TO_ENT - UITEST` ❌
 
 + ¿Por qué usar `Singleton para (punto 1)` una instancia unica en nuestra aplicación para la clase que del `contenedor que interactua con la Base de Datos`?
 + Crear el `contenedor separado de la App` con los métodos y un protocolo para que se lo pase a unos ficheros con los `Casos de uso` y que se llaman en el `View Model` para que los uso la `View`.
