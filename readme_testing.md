@@ -150,19 +150,20 @@ En Swift, existen dos principales frameworks para realizar `unit tests`:
 ## 5. Test `INTEGRACIÓN` (`Integration Tests`)
 [IMAG 1]
 
-Fijandonos en la imagen de la piramide ya hemos visto los `Unit Tests` testeando el Modelo y el View Model (con sus funciones). Estos se enfocaban en pequeñas partes del codigo com funciones y métodos que son faciles y rapidas de ejecutar. Esos son `la mayoria de test` de nuestra aplicación y deberian de ser de es tipo `Unit Tests`. Son la base de la piramide.
+Fijandonos en la imagen de la piramide ya hemos visto los `Unit Tests` testeando el `Modelo` y el `View Model` (con sus funciones). Estos se enfocaban en pequeñas partes del código con funciones y métodos que son fáciles y rápidos de ejecutar. Esos son `la mayoria de test` de nuestra aplicación y deberian de ser de tipo `Unit Tests`. Son la `base de la piramide`.
 
-La segunda capa son los `Test de integración`, esta capa s eenfoca en diferentes partes de la aplicación que trabajan juntas, estos test son más lentos. Aun asi deberian de ser bastate frecuentes, están en medio de la piramide lo que indican que deberia de haber menos `Test de integración` que `Test Unitarios`.
+La segunda capa son los `Test de integración`, esta capa se enfoca en `diferentes partes` de la aplicación que trabajan juntas, estos test son más lentos. Aun asi deberian de ser bastante frecuentes, están en `medio de la piramide` lo que indican que deberia de haber menos `Test de integración` que `Test Unitarios`.
 
 [IMAG 2]
 
 ### 5.1. Añadimos en `App de Notas` persistencia con `SwiftData`
-Vamos a mejorar la aplicación que teniamos con SwiftData para persistir nuestras notas y vamos a crear en ella casos de uso. Asi si se cierra la aplicación y la volvemos abrir siguen estnado las notas.
+Vamos a mejorar la aplicación que teniamos con `SwiftData` para persistir nuestras notas y vamos a crear en ella `casos de uso`. Asi si se cierra la aplicación y la volvemos abrir siguen estando las notas.
 
 [IMAG 3]
 
-Vamos a crear nuevas capas para Swift Data con esta estructura: `DataBase --> Usecase --> ViewModel --> View`
-Vamos a extraer toda la lógica del `View Model` en el fichero `UseCase` con 4 casos de uso `obtener, crear, actualizar, eliminar` las notas y de esta manera desacoplamos la lógica del `View Model` y conformamos unos de los `principios SOLID` el de responsabilidad única.
+Vamos a crear nuevas capas para Swift Data con esta estructura: `DataBase --> Usecase --> ViewModel --> View`.
+
+Vamos a extraer toda la lógica del `View Model` en el fichero `UseCase` con 4 casos de uso `obtener, crear, actualizar, eliminar` las notas y de esta manera desacoplamos la lógica del `View Model` y conformamos unos de los `principios SOLID` el de `responsabilidad única`.
 
 * Vamos a testear con `test de integración` desde la capa de `Base de datos` hasta la de `View Model`.
 
@@ -183,7 +184,7 @@ Vamos a usar el `protocolo` del `NotaDatabase.swift` asi en vez de utilizar `imp
 Añadimos las referencias de cada caso de uso.
 
 ### 5.2. Pasos del `test de integración`
-Vamos a valdiar que cuando se cree una nota la nota de verdad persista en la BD de SwiftData y que cuando tambien llamemos al VM para obtener las notas de la BD de SwiftData, efectivamente se recuperen las notas almacenadas en la BD.
+Vamos a `validar` que cuando se `cree una nota`, la nota de verdad `persista` en `la BD de SwiftData` y que cuando tambien llamemos al VM para obtener las notas de la BD de SwiftData, efectivamente se recuperen las notas almacenadas en la BD.
 
 Vamos a la carpeta de testing principal que ya habiamos creado y creamos un nuevo fichero:
 `Filtro por 'test' --> * Unit Test Case Class --> Nombre 'ViewModelIntegrationTests' y Subclass of: 'XCTestCase' --> Pulsado el Target de testing`
@@ -199,7 +200,7 @@ Debemos de configurar `el contenedor` que se debe de repetir en cada ejecución 
 
 Luego ya declaramos `las funciones de SwiftData` en el `ViewModel` para testearlo.
 
-Vemos que los test me funcionan pero ahora los test realizados anteriormente en otro fichero `ViewModelTest.swift` de hacer `test unitarios en el View Model` dan `error`, ya que no tiene los `Use Cases` correspondientes y hay un lio de logica, ya que tenemos funciones que se hacen `en memoria y otras persistencia de disco`.
+Vemos que los test me funcionan pero ahora los test realizados anteriormente en otro fichero `ViewModelTest.swift` de hacer `test unitarios en el View Model` dan `error`, ya que no tiene los `Use Cases` correspondientes y hay un lio de lógica, ya que tenemos funciones que se hacen `en memoria y otras persistencia de disco`.
 
 En el fichero del test unitario antiguo (`ViewModelTest.swift`):
 Los `test de modificar y eliminar` que aun no hemos cambiado las operaciones en el `View Model` los vamos a comentar.
@@ -279,7 +280,8 @@ Y ya funciona perfectamente.
 En resumen: hemos aprendido a `crear mocks` para usarlos en nuestros `test unitarios` y para hacerlo nos hemos basado en los `protocolos` y sobretodo en `la inyección de independecias` que es importante a la hora de crear test.
 
 ## 7. `Realizar lo mismo` hasta ahora para `Actualizar y Eliminar` una nota.
-Realizaremos ahora lo mismo para otras operaciones como actualziar y eliminar:
+Realizaremos ahora lo mismo para otras operaciones como actualizar y eliminar.
+Pasos a realizar:
 - Crear `UseCase Actualizar` Nota
 - Crear `UseCase Borrar` Nota
 - Crear `Integration Tests`
@@ -311,7 +313,7 @@ Vamos a crear dos test uno para comprobar que `la integración con la BD` funcio
 Estos de `test de integración` interactuan con la BD, es decir usamos un BD real pero lo que usamos es una configuración especifica para persistir la información en memoria.
 Añadimos las dos funciones.
 
-En resumen hemos creado la implementación que faltaba para poder actualizar y eliminar una nota, tambien hemos ceado los casos de uso para poderlo inyectar dentro del ViewModel, al crear el init del ViewModel basandonos en abstracciones de protocolos dentor de nuestro target de testing hemos podido crear mocks de nuestros casos de uso para especificar que comportamiento queremos tener y asi testear nuestro codigo sin tener que envolucrar para nada la Base de datos y esto ha pasado en los test unitarios. Finalmente hemos ehco los test de integración que involucran nuedtra base de datos en memoria. En este caso estamos comprobando la integración de varias capas de nuesrtra arquitectura para comprobar que la integración de distintas aprtes de codigo funciona como deberia.
+En resumen hemos creado la `implementación` que faltaba para poder `actualizar y eliminar una nota`, tambien hemos creado los `casos de uso` para poderlo inyectar dentro del `ViewModel`, al crear el `init del ViewModel` basandonos en abstracciones de `protocolos` dentro de nuestro `target de testing` hemos podido `crear mocks` de nuestros casos de uso para especificar que comportamiento queremos tener y asi testear nuestro código sin tener que envolucrar para nada la `Base de datos` y esto ha pasado en los `test unitarios`. Finalmente hemos hecho los `test de integración` que involucran nuestra base de datos en memoria. En este caso estamos comprobando `la integración` de varias capas de nuestra `arquitectura` para comprobar que la integración de distintas partes de código funciona como deberia.
 
 ### 7.6. Manejamos `errores` y forma de capturarlos.
 En el `ViewModel` añadimos una variable `var databaseError:DatabaseError?` lo vamos a capturar es el error de la base de datos. Pro ejemplo en el método de borrar añadimos un `catch let error as DatabaseError` ue nos devuelve el error y lo guarde en la variable antes definida.
@@ -321,8 +323,10 @@ Porque no siempre se deben de crear test de cosas que esperamos si no tambien de
 
 ## 8. Test de pruebas de capturas instantaneas `Snapshot Tests`
 Sirven para comparar visualmente la `UI` de la aplicación pudiendo saber si se ha cometido un error muy facilmente.
-Primero creamos el `Snapshot` de nuestra vista (de la vista que queremos testear). Al ejecutar por primera vez el test se crea una caputra con la pantalla de la vista que queremos testear. Esta captura se guarda como referencia para poder comparar en futuras referencias que hagamos de la vista. Es decir por ejemplo añadir mas subvistas, cambiar colores, eliminar, subvistas, etc.
-Imaginamos que hacemos captura de la pantalla de crear una nueva nota, esta no debemos hacer de forma manual, sino que las hara el test por nosotros. Lo siguiente seria ejecutar el test cada vez que cambiemos la vista de la cual hemos creado el `Snapshot`. Al ser test automatizado se toma una nueva captura de la vista. Ahora deberiamos de comparar las captura. La captura que hicimos del test se compara con la camptura de referencia que se guardo la primera vez que se creo la vista, si hay alguna diferencia entre las dos el test este fallará.
+
+Primero creamos el `Snapshot` de nuestra vista (de la vista que queremos testear). Al ejecutar por `primera vez el test` se crea una captura con la pantalla de la vista que queremos testear. Esta captura se guarda como `referencia` para poder comparar en futuras referencias que hagamos de la vista. Es decir por ejemplo añadir mas `subvistas, cambiar colores, eliminar, subvistas, etc`.
+
+Imaginamos que hacemos `captura de la pantalla` de crear una nueva nota, esta no debemos hacer de `forma manual`, sino que las hará el `test por nosotros`. Lo siguiente seria ejecutar el test cada vez que cambiemos la vista de la cual hemos creado el `Snapshot`. Al ser `test automatizado` se toma una nueva `captura de la vista`. Ahora deberiamos de `comparar las captura`. La `captura que hicimos del test` se compara con la `captura de referencia` que se guardo la primera vez que se creo la vista, si hay alguna `diferencia` entre las dos el test este `fallará`.
 
 [IMAG 7] [IMAG 7.1]
 
@@ -333,24 +337,25 @@ Vamos a la práctica:
 
 * 3. Como tenemos muchas ficheros dentro de la `target test` lo voy a dividir en un carpeta según el tipo de test: `UnitTest`, `IntegrationTest` y `SnapshotTest`
 
-4. En el fihcero `CreateViewNoteSnapshotTest.swift` creamos el método del test.
-La primera vez que lo ejecutemos dara error porque esa la vez que se guarde la instacia de referencia. Si le damos a ver el error tendra un enlace que nos redirigira a la carpeta donde se va a encontrar el snapshot de referencia para las próximas ejecuciones.
+4. En el fichero `CreateViewNoteSnapshotTest.swift` creamos el método del test.
+La primera vez que lo ejecutemos dara `error` porque esa la vez que se guarde la instacia de referencia. Si le damos a ver el error tendra `un enlace` que nos redirigira a la carpeta donde se va a encontrar el `snapshot de referencia` para las próximas ejecuciones.
 
 Ejemplo del error en la linea, al pulsar la linea vemos esto y ese enlace almacena la imagen de referencia para futuras ejecuciones:
 `failed - No reference was found on disk. Automatically recorded snapshot: … open "file:///Users/carlosCG/Desktop/Swift%20Testing/AppTesting/AppTestingUnitTest/SnapshotTest/__Snapshots__/CreateViewNoteSnapshotTest/testCreateNoteView.1.png"`
 
-Cogemos donde esta la ruta del png la pulsamos a la derecha y le damos a `Open Link` y nos muestra la imagen que nos ha creado nuestro test.
+Cogemos donde esta `la ruta del png` la pulsamos a la derecha y le damos a `Open Link` y nos muestra la imagen que nos ha creado nuestro test.
 
-5. Si lo volvemos a ejecutar al no a ver cambiado nada de nuestra vista ya deberia de pasar.
-Imaginate que cambiamos ahora la vista un simple color del texto en una etiqueta o cualquier cosa. Ahora la imagen de referencia va a ser diferente a la que tenemos y dara error. Podemos de la misma forma ver los enlaces de las dos imágenes y como difiere una imagen de la otra para saber lo que ha cambiado de una vista a la otra.
+5. Si lo `volvemos a ejecutar` al no a ver cambiado nada de nuestra vista ya `deberia de pasar`.
+Imaginate que `cambiamos ahora la vista` un simple color del texto en una etiqueta o cualquier cosa. Ahora la imagen de referencia va a ser diferente a la que tenemos y `dara error`. Podemos de la misma forma ver los `enlaces de las dos imágenes` y como `difiere una imagen de la otra` para saber lo que ha cambiado de una vista a la otra.
 
 [IMAG 8]
 
-¿Y que pasa si queremos cambiar esa referencia de la imagen, ya que nos queremos quedar con la ultima actualziacion de la vista?
-Lo que tenemos es que ir a la carpeta de la imagen de referencia y cambiar la imagen por la versión de error que es la que queremos usar ahora y ponersela a la carpeta de referencia. Ambas rutas salen en el error con junto un `+` y un `-`. Al poner en el Finder `cmd + mayus + g` y poner la ruta desde el `file ... .png` y dar a intro accedemos a las carpetas.
+* ¿Y que pasa si queremos `cambiar esa referencia de la imagen`, ya que nos queremos quedar con la ultima actualización de la vista?
 
-6. Creamos `otro método test de ejemplo` donde le pasamos la vista de crear una ntoa con los campos por defecto rellenos.
-Recordamos que al crear la primer arefencia va a dar error.
+Lo que tenemos es que ir a` la carpeta de la imagen de referencia y cambiar la imagen` por la versión de error que es la que queremos usar ahora y ponersela a la carpeta de referencia. Ambas rutas salen en el error con junto un `+` y un `-`. Al poner en el Finder `cmd + mayus + g` y poner la ruta desde el `file ... .png` y dar a intro accedemos a las carpetas.
+
+6. Creamos `otro método test de ejemplo` donde le pasamos la vista de crear una nota con los campos por defecto rellenos.
+Recordamos que al crear la primera refencia va a dar error.
 
 ## 9. Test EndToEnd `UITests Xcode`
 Si recordamos enla [IMAG 1] son en la piramide los más altos que se encuentran arriba del todo.

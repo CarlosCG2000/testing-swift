@@ -9,6 +9,8 @@ import XCTest
 
 final class AppTestingUITests: XCTestCase {
 
+    // [ Los Breakpoint son las lineas creadas manualmente ]
+    
     func testCrearNota() throws {
         let app = XCUIApplication()
         

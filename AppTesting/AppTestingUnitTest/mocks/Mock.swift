@@ -9,7 +9,7 @@
 import Foundation
 @testable import AppTesting
 
-//________________ MOCK'S _________________
+//________________ MOCK'S - BD FICTICIO _________________
 var mockDBNotas: [Nota] = [] // variable que va a simular el almacenamiento en la BD
 
 struct CreateNoteUseCaseMock: CreateNoteProtocol {

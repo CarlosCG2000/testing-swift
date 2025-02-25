@@ -16,7 +16,7 @@ final class ViewModelIntegrationTests: XCTestCase {
     override func setUpWithError() throws { // Configuración que se debe de repetir en cada ejecución de un test
         
         let database = NotaDatabase.shared // Declaramos nuestro Singleton de la Base de datos
-        database.container = NotaDatabase.setUpContainer(inMemory : true)// y lo elegimos en memoria
+        database.container = NotaDatabase.setUpContainer(inMemory: true)// y lo elegimos en memoria
         
         // Declaramos los use cases
         let createNoteUseCase = CreateNoteUseCase(notaDatabase: database)

@@ -13,6 +13,7 @@ final class ViewModelTest: XCTestCase {
     var viewModel:ViewModel!
     
     override func setUpWithError() throws {  // ANTES DE EJECUTARSE EL TEST
+        
         viewModel = ViewModel(
             createNoteUseCase: CreateNoteUseCaseMock(),
             fetchAllNoteUseCase: FetchAllNoteUseCaseMock(),

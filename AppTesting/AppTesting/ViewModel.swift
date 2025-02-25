@@ -11,7 +11,7 @@ import Foundation
 final class ViewModel {
     
     var notas:[Nota]
-    var databaseError:DatabaseError? // variable que guardara el error de la base de datos. Hemos ehco la prueba en el método de la función deleteNota()
+    var databaseError:DatabaseError? // variable que guardara el error de la base de datos. Hemos hecho la prueba en el método de la función deleteNota()
     
     //  Los casos de uso de SwiftData, evez del useCase concretos usamos la abstraction con los protocolos
     var createNoteUseCase: CreateNoteProtocol // CreateNoteUseCase
@@ -76,7 +76,8 @@ final class ViewModel {
         }
     }
     //__________________________________________________
-        /*
+    // FUNCIONES REALIZADAS CON EL PROYECTO INICIAL CON LA APLICACIÓN SIN PERSISTENCIA EN LA BASE DE DATOS DE SWIFT DATA
+    /**
          func addNota(titulo: String, text:String) {
          let newNota:Nota = .init(title: titulo, text: text, creationDate: .now)
          
@@ -99,6 +100,6 @@ final class ViewModel {
           */
          self.notas.removeAll(where:{$0.id == id})
          }
-         */
+    */
     
 }

@@ -11,6 +11,7 @@ protocol CreateNoteProtocol {
     func createNoteWith(title: String, text: String) async throws
 }
 
+// la clase/struct principal que va a contener el protocolo por defecto, las otras struct que van a contenerlo son para el testing
 struct CreateNoteUseCase: CreateNoteProtocol {
     
     var notaDatabase : NotasDatabaseProtocol // 1. De forma abstracta llamamos al protocolo 'NotasDatabaseProtocol' creando una referencia a nuestra BD
