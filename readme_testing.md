@@ -359,8 +359,8 @@ Recordamos que al crear la primera refencia va a dar error.
 
 ## 9. Test EndToEnd `UITests Xcode`
 Si recordamos enla [IMAG 1] son en la piramide los más altos que se encuentran arriba del todo.
-Son los test EndToEnd de extremo a extremo,donde se interactua con la UI.
-Con eelo podemos testear flujos de nuetra app, por el ejemplo el login, los registros, entrar a nuestra app y lueog navegar sila logica se comporta tal y como esperamos, etc.
+Son los test EndToEnd de extremo a extremo, donde se interactua con la UI.
+Con el podemos testear flujos de nuetra app, por el ejemplo el login, los registros, entrar a nuestra app y lueog navegar sila logica se comporta tal y como esperamos, etc.
 
 Vamos a crear `2 UITests`:
 1. Crear una nota y ver que se ha creado correctamente.
