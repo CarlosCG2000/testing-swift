@@ -409,6 +409,144 @@ Hacemos el nuevo método: `testCrearDosNotaBorrarPrimera()`.
 
 '''''' ¡TUTORIAL COMPLETADO! ''''''
 
+# EXTRA - LOGS
+[IMAG 9]
+
+¿Por qué generar `logs` en vez de mostrar `mensajes por pantalla` en `SwiftUI`?
+1. `Mejor depuración` → Los logs permiten `rastrear el flujo` de la aplicación sin interrumpir la experiencia del usuario.
+2. `Análisis posterior` → Se pueden almacenar logs para `revisar fallos` después de que ocurran.
+3. `Menos intrusivo` → `No afecta la UI` ni la experiencia del usuario con alertas o mensajes emergentes.
+4. `Mejor rendimiento` → Es más eficiente que imprimir en pantalla, especialmente en procesos en segundo plano.
+5. `Facilidad de diagnóstico` → Puedes filtrar `logs por niveles` (`info, warning, error, debug`) y verlos organizados en Xcode o en archivos.
+
+## Características clave para los logs
+1. `Nivel de severidad` (`INFO, DEBUG, WARNING, ERROR, CRITICAL`)
+2. `Fecha` y hora exacta del evento
+3. `Módulo` o categoría (p. ej. `Mock`, `Networking, Database, UI, Auth`)
+4. `Función o archivo de origen` donde se generó el log
+5. `ID del usuario` o sesión (si la app maneja usuarios)
+6. `Contexto adicional` (ejemplo: quoteID=12345, username=CarlosCG)
+
+## ¿Cómo generar logs en SwiftUI?
+1. Usando `print(_:)` (Solo en desarrollo, no recomendado en producción)
+❌ `Limitaciones`: No permite niveles de log, difícil de gestionar en producción.
+
+2. Usando `os.Logger` (Recomendado para producción)
+Desde `iOS 14` en adelante, puedes usar `os.Logger`, que es más eficiente que `print()`.
+✅ Ventajas:
+• Más eficiente que `print()`.
+• Permite `filtrar logs` por niveles en `Xcode > Debug Console`.
+• Se `integra` con la herramienta `Console.app` en `macOS` para ver logs del sistema.
+
+* Ejemplo:
+```swift
+import OSLog
+
+let logger = Logger(subsystem: "com.miapp.SimpsonsApp", category: "Networking")
+
+logger.info("✅ Respuesta recibida con éxito, URL: https://api.simpsons.com/quotes")
+logger.error("❌ Error 404 al obtener personajes.")
+```
+
+- Salida en la consola de Xcode
+```swift
+2025-02-24 12:35:10.123456+0000 com.miapp.SimpsonsApp [Networking] ✅ Respuesta recibida con éxito, URL: https://api.simpsons.com/quotes
+2025-02-24 12:35:12.654321+0000 com.miapp.SimpsonsApp [Networking] ❌ Error 404 al obtener personajes.
+```
+
+* `Filtrar logs` con estas características
+1. Por `nivel de severidad`:
+• Buscar [INFO], [ERROR], [DEBUG] en los logs.
+• Si usas OSLog, en la Consola de Xcode puedes filtrar logs por `log.level(.error)`.
+2. Por `categoría`:
+• Filtrar logs de `Networking, Database, UI, Auth`.
+• En `OSLog`, usar `log.category("Networking")` para ver solo esos logs.
+3. Por `contexto específico`:
+• Si guardas `IDs (quoteID=12345)`, puedes buscar logs de una `cita específica`.
+4. Por `fecha`:
+• Buscar `logs dentro de un rango de fechas` para depurar errores recientes.
+
+3. Guardar `logs` en un archivo (Para `depuración avanzada o soporte`)
+✅ Ventaja: Permite almacenar logs persistentes para análisis posterior.
+
+* 1. Si quieres `almacenar logs` en un archivo para analizarlos después:
+Añade esta función en un `LoggerManager.swift` para escribir los logs en un archivo dentro de la carpeta de `Documentos` de la app:
+```swift
+import Foundation
+import OSLog
+
+struct LogWriter {
+    static let logFileName = "app_logs.txt"
+
+    static func writeLog(_ message: String) {
+        let timestamp = Date().formatted(date: .numeric, time: .standard)
+        let logMessage = "[\(timestamp)] \(message)\n"
+
+        do {
+            let fileURL = getLogFileURL()
+            if FileManager.default.fileExists(atPath: fileURL.path) {
+                let fileHandle = try FileHandle(forWritingTo: fileURL)
+                fileHandle.seekToEndOfFile()
+                if let data = logMessage.data(using: .utf8) {
+                    fileHandle.write(data)
+                }
+                fileHandle.closeFile()
+            } else {
+                try logMessage.write(to: fileURL, atomically: true, encoding: .utf8)
+            }
+        } catch {
+            print("❌ Error al escribir el log: \(error)")
+        }
+    }
+
+    static func getLogFileURL() -> URL {
+        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return directory.appendingPathComponent(logFileName)
+    }
+}
+```
+
+* 2. `Usar el log` en tu app
+Ahora, en cualquier parte de la app donde necesites `guardar un log`, usa:
+``` swift
+import OSLog
+
+let logger = Logger(subsystem: "com.miapp.SimpsonsApp", category: "General")
+
+logger.info("🏁 Inicio de la app.")
+LogWriter.writeLog("🏁 Inicio de la app.")
+```
+
+* 3. `Consultar el archivo de logs`
+Puedes ver los logs guardados en la carpeta Documents de la app:
+```swift
+let logURL = LogWriter.getLogFileURL()
+print("📂 Ruta del archivo de logs: \(logURL.path)")
+```
+
+Si necesitas acceder al `archivo de logs` desde Finder en un `simulador`:
++ 1. Ejecuta la app en el simulador
++ 2. Abre Terminal y usa:
+```bash
+open $(xcrun simctl get_app_container booted com.miapp.SimpsonsApp data)/Documents
+```
+
+🔥 Bonus: Leer los `logs` desde la app
+Si quieres ver los logs directamente en tu app:
+```swift
+func readLogs() -> String {
+    let fileURL = LogWriter.getLogFileURL()
+    return (try? String(contentsOf: fileURL, encoding: .utf8)) ?? "No hay logs aún."
+}
+```
+Y lo muestras en una vista de `SwiftUI`:
+```swift
+Text(readLogs())
+    .padding()
+    .font(.caption)
+```
+✅ Ahora los logs quedarán guardados en un archivo y podrás analizarlos fácilmente. 🚀
+
 # ___________________________________________
 PASAR A MI APLICACIÓN LOS SIMPSON
 - LOS `TEST UNITARIOS` TANTO CON `XCTest` y `Swift Testing` PARA `Model` Y `View Model` DE LA SECCIÓN `Character` ✅
